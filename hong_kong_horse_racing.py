@@ -118,10 +118,15 @@ def main():
     
     #test,train分割
     label = data_completed['finishing_position'].astype(np.float32)-1
-    label_num = np.array(label)-1
+    label_num = np.array(label)
     dataset = data_completed.drop(['finishing_position'], axis=1).astype(np.float32)
     dataset_num = np.array(dataset)
+    
+    #データセットのシャッフル
+    rand = np.random.permutation(len(dataset_num))
+    dataset_num = dataset_num[rand]
+    label_num = label_num[rand]
     X_train, X_test, y_train, y_test = train_test_split(
             dataset_num, label_num,
-            test_size=0.2, random_state=0)
+            test_size=0.4, random_state=0)
     return data_completed, label, dataset, X_train, X_test, y_train, y_test
